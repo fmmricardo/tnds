@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 export default class Todo extends Component {
-  componentDidMount() {}
-
   shouldComponentUpdate(nextProps) {
     if (
       nextProps.title === this.props.title &&
@@ -14,12 +12,16 @@ export default class Todo extends Component {
     return true;
   }
 
+  onClick = () => {
+    this.props.updateTodo(this.props.id);
+  };
+
   render() {
-    console.log(this.props);
     return (
       <div>
         <h2>{this.props.title}</h2>
         <p>{this.props.description}</p>
+        <button onClick={this.onClick}>edit todo</button>
       </div>
     );
   }

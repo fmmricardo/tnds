@@ -5,27 +5,42 @@ export default WrappedComponent =>
   class TodosContainer extends Component {
     constructor() {
       super();
-      this.state = { todos: {} };
+      this.state = {
+        todos: {}
+      };
     }
 
-    addTodo = todo =>
+    addTodo = todo => {
+      const id = _.toArray(this.state.todos).length + 1;
+
       this.setState({
-        todos: { ...this.state.todos, [todo.id]: todo }
+        todos: { ...this.state.todos, [id]: { ...todo, id } }
       });
+    };
 
     updateTodo = updatedTodo => {
       this.setState({
-        ...this.state.todos,
-        [updatedTodo.id]: {
-          ...this.state.todos[todo.id],
-          ...updatedTodo
+        todos: {
+          ...this.state.todos,
+          [updatedTodo.id]: {
+            ...this.state.todos[updatedTodo.id],
+            ...updatedTodo
+          }
         }
       });
     };
 
+    get todos() {
+      return this.state.todos;
+    }
+
     render() {
       return (
-        <WrappedComponent addTodo={this.addTodo} updateTodo={this.updateTodo} />
+        <WrappedComponent
+          todos={this.todos}
+          addTodo={this.addTodo}
+          updateTodo={this.updateTodo}
+        />
       );
     }
   };
